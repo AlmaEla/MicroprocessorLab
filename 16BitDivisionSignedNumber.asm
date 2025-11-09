@@ -1,0 +1,25 @@
+DATA SEGMENT 
+NUM1 DW 4567H,2345H 
+NUM2 DW 4111H 
+QUO DW 2 DUP(0) 
+REM DW 1 DUP(0) 
+DATA ENDS 
+CODE SEGMENT 
+ASSUME CS:CODE,DS:DATA
+START: MOV AX,DATA 
+MOV DS,AX 
+MOV AX,NUM1 ; Move the lower bit of Dividend to AX 
+MOV DX,NUM1+2   ; Move the higher bit of Dividend to DX 
+CWD 
+IDIV NUM2        ; Perform the sign Division operation using IDIV 
+MOV QUO,AX    ; Store the quotient to AX 
+MOV REM,DX     ; Store the reminder to DX 
+MOV AH,4CH 
+INT 21H 
+CODE ENDS 
+END START 
+ 
+INPUT: Dividend - -44444444, 
+Divisor - 2222, 
+0UTPUT: AX – FE (quotient);      
+DX – FF (reminder)    ; Result is in two complement form. 
