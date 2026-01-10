@@ -1,1 +1,40 @@
+DATA SEGMENT
+    x DW 24
+    y DW ?
+DATA ENDS
+
+CODE SEGMENT
+    ASSUME CS:CODE, DS:DATA
+
+START:
+    MOV AX, DATA
+    MOV DS, AX
+
+    MOV AX, x
+    CMP AX, 28
+    JG EXIT
+
+    SUB AX, 30
+    MOV BX, 5
+    IMUL BX
+
+    MOV BX, 9
+    CWD
+    IDIV BX
+
+    MOV BX, 7
+    ADD AX, BX
+
+    CMP AX, 0
+    JGE RESULT
+    NEG AX
+
+RESULT:
+    MOV y, AX; y=(x-30)*5/9+7
+
+EXIT:
+    HLT
+
+CODE ENDS
+END START
 
