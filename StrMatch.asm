@@ -1,0 +1,48 @@
+DATA SEGMENT
+    STR1 DB 'HELLO$'
+    STR2 DB 'kELLO$'
+    MSG1 DB 10,13,'STRING MATCH$'
+    MSG2 DB 10,13,'STRING NOT MATCH$'
+DATA ENDS
+
+CODE SEGMENT
+ASSUME CS:CODE, DS:DATA
+
+START:
+    MOV AX, DATA
+    MOV DS, AX
+
+    LEA SI, STR1
+    LEA DI, STR2
+
+COMPARE:
+    MOV AL, [SI]
+    MOV BL, [DI]
+
+    CMP AL, BL
+    JNE NOT_MATCH
+
+    CMP AL, '$'     ; end of string
+    JE MATCH
+
+    INC SI
+    INC DI
+    JMP COMPARE
+
+MATCH:
+    LEA DX, MSG1
+    MOV AH, 09H
+    INT 21H
+    JMP EXIT
+
+NOT_MATCH:
+    LEA DX, MSG2
+    MOV AH, 09H
+    INT 21H
+
+EXIT:
+    MOV AH, 4CH
+    INT 21H
+
+CODE ENDS
+END START
