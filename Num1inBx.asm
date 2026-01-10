@@ -1,0 +1,22 @@
+DATA SEGMENT
+    DATA ENDS
+CODE SEGMENT
+    ASSUME CS:CODE,DS:DATA
+    START:MOV AX,DATA
+    MOV DS,AX
+    MOV BX,0BH
+    MOV DX,BX
+    MOV CX,16
+    MOV AX,0
+    
+    L1:
+    ROL DX,1
+    JNC L2
+    INC AX
+    
+    L2:
+    LOOP L1; CX--
+    MOV AH,4CH
+    INT 21H
+    CODE ENDS
+END START
